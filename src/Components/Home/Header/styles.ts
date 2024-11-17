@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Cores } from '../../../styles'
 
-import Hero from '../../../images/Hero.png'
+import Hero from '../../../assets/images/Hero.png'
 
 export const HeaderStyled = styled.header`
   color: ${Cores.vermelho};

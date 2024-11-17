@@ -7,12 +7,12 @@ import { useLocation } from 'react-router-dom'
 
 const Products = () => {
   const location = useLocation()
-  const { title, culture, image } = location.state || {}
+  const { title, culture, image, cardapio } = location.state || {}
   return (
     <>
       <ProductsHeader />
       <Banner title={title} culture={culture} image={image} />
-      <MenuCategorizado />
+      <MenuCategorizado cardapio={cardapio} />
       <ProductsList />
     </>
   )

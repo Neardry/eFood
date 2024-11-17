@@ -13,10 +13,14 @@ export const ListItem = styled.li`
   height: 100%;
   width: 480px;
   position: relative;
+  max-height: 400px;
 
   img {
     width: 100%;
     height: 100%;
+    max-width: 480px;
+    max-height: 218px;
+    object-fit: cover;
   }
 `
 export const ContainerInfos = styled.div`
@@ -28,7 +32,6 @@ export const ContainerInfos = styled.div`
   div {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
     margin-top: 8px;
 
     p {
@@ -39,10 +42,12 @@ export const ContainerInfos = styled.div`
 
     img {
       width: 21px;
+      height: 21px;
     }
   }
 
   h4 {
+    margin-bottom: 16px;
     font-size: 18px;
   }
 

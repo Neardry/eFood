@@ -1,7 +1,7 @@
-import imageSushi from '../../../images/sushi.png'
-import imagemMassa from '../../../images/imagemMassa.png'
-import estrela from '../../../images/estrela.png'
-import Category from '../../../models'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import estrela from '../../../assets/images/estrela.png'
 
 import {
   ListItems,
@@ -10,115 +10,80 @@ import {
   ContainerInfos,
   ContainerCategoria
 } from './styles'
-import { Link } from 'react-router-dom'
 
-export const categorias: Category[] = [
-  {
-    id: 1,
-    avaliation: 4.9,
-    culture: 'Japonesa',
-    description:
-      'Peça já o melhor da culinária japonesa no conforto da sua casa! Sushis frescos, sashimis deliciosos e pratos quentes irresistíveis. Entrega rápida, embalagens cuidadosas e qualidade garantida.Experimente o Japão sem sair do lar com nosso delivery!',
-    highlight: true,
-    title: 'Hioki Sushi ',
-    image: imageSushi
-  },
-  {
-    id: 2,
-    avaliation: 4.6,
-    culture: 'Italiana',
-    description:
-      'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!',
-    highlight: false,
-    title: 'La Dolce Vita Trattoria',
-    image: imagemMassa
-  },
-  {
-    id: 3,
-    avaliation: 4.6,
-    culture: 'Italiana',
-    description:
-      'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!',
-    highlight: false,
-    title: 'La Dolce Vita Trattoria',
-    image: imagemMassa
-  },
-  {
-    id: 4,
-    avaliation: 4.6,
-    culture: 'Italiana',
-    description:
-      'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!',
-    highlight: false,
-    title: 'La Dolce Vita Trattoria',
-    image: imagemMassa
-  },
-  {
-    id: 5,
-    avaliation: 4.6,
-    culture: 'Italiana',
-    description:
-      'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!',
-    highlight: false,
-    title: 'La Dolce Vita Trattoria',
-    image: imagemMassa
-  },
-  {
-    id: 6,
-    avaliation: 4.6,
-    culture: 'Italiana',
-    description:
-      'A La Dolce Vita Trattoria leva a autêntica cozinha italiana até você! Desfrute de massas caseiras, pizzas deliciosas e risotos incríveis, tudo no conforto do seu lar. Entrega rápida, pratos bem embalados e sabor inesquecível. Peça já!',
-    highlight: false,
-    title: 'La Dolce Vita Trattoria',
-    image: imagemMassa
-  }
-]
+export type Categorys = {
+  id: number
+  titulo: string
+  destacado: boolean
+  tipo: string
+  avaliacao: number
+  descricao: string
+  capa: string
+  cardapio: Array<{
+    id: number
+    foto: string
+    preco: number
+    nome: string
+    descricao: string
+    porcao: string
+  }>
+}
 
-const Menu = () => (
-  <div>
-    <div className="container">
-      <ListItems>
-        {categorias.map((categoria) => (
-          <ListItem key={categoria.id}>
-            <ContainerCategoria>
-              {categoria.highlight && (
+const Menu = () => {
+  const [categorys, setCategorys] = useState<Categorys[]>([])
+  useEffect(() => {
+    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
+      .then((res) => res.json())
+      .then((res) => setCategorys(res))
+      .catch((err) => console.error(err))
+  }, [])
+
+  return (
+    <div>
+      <div className="container">
+        <ListItems>
+          {categorys.map((category) => (
+            <ListItem key={category.id}>
+              <ContainerCategoria>
+                {category.destacado && (
+                  <CategoriasBotao>
+                    <h4>Destaque da semana</h4>
+                  </CategoriasBotao>
+                )}
                 <CategoriasBotao>
-                  <h4>Destaque da semana</h4>
+                  <h4>{category.tipo}</h4>
                 </CategoriasBotao>
-              )}
-              <CategoriasBotao>
-                <h4>{categoria.culture}</h4>
-              </CategoriasBotao>
-            </ContainerCategoria>
-            <div>
-              <img src={categoria.image} alt={categoria.title} />
-            </div>
-            <ContainerInfos>
+              </ContainerCategoria>
               <div>
-                <h4>{categoria.title}</h4>
-                <div>
-                  <p>{categoria.avaliation}</p>
-                  <img src={estrela} alt="estrela" />
-                </div>
+                <img src={category.capa} alt={category.titulo} />
               </div>
-              <p>{categoria.description}</p>
-              <Link
-                to="/produtos"
-                state={{
-                  image: categoria.image,
-                  title: categoria.title,
-                  culture: categoria.culture
-                }}
-              >
-                <CategoriasBotao>Saiba mais</CategoriasBotao>
-              </Link>
-            </ContainerInfos>
-          </ListItem>
-        ))}
-      </ListItems>
+              <ContainerInfos>
+                <div>
+                  <h4>{category.titulo}</h4>
+                  <div>
+                    <p>{category.avaliacao}</p>
+                    <img src={estrela} alt="estrela" />
+                  </div>
+                </div>
+                <p>{category.descricao.slice(0, 260) + '...'}</p>
+                <Link
+                  to={`/produtos/${category.id.toString()}`}
+                  state={{
+                    cardapio: category.cardapio,
+                    image: category.capa,
+                    title: category.titulo,
+                    culture: category.tipo
+                  }}
+                >
+                  <CategoriasBotao>Saiba mais</CategoriasBotao>
+                </Link>
+              </ContainerInfos>
+            </ListItem>
+          ))}
+        </ListItems>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default Menu

@@ -1,8 +1,8 @@
 import { FooterStyled } from './styles'
-import logo from '../../images/logo.png'
-import instagram from '../../images/instagram.png'
-import facebook from '../../images/facebook.png'
-import twitter from '../../images/finadoTwiter.png'
+import logo from '../../assets/images/logo.png'
+import instagram from '../../assets/images/instagram.png'
+import facebook from '../../assets/images/facebook.png'
+import twitter from '../../assets/images/finadoTwiter.png'
 
 const Footer = () => (
   <>

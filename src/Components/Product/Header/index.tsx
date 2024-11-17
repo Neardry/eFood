@@ -1,6 +1,7 @@
 import { HeaderProduct, HeaderBackground } from './styles'
 
-import logo from '../../../images/logo.png'
+import logo from '../../../assets/images/logo.png'
+import { Link } from 'react-router-dom'
 
 const ProductsHeader = () => (
   <>
@@ -8,7 +9,9 @@ const ProductsHeader = () => (
       <div className="container">
         <HeaderProduct>
           <p>Restaurantes</p>
-          <img src={logo} alt="" />
+          <Link to="/">
+            <img src={logo} alt="" />
+          </Link>
           <p>0 produto(s) no carrinho</p>
         </HeaderProduct>
       </div>
