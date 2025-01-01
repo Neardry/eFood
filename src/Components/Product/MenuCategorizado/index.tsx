@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useState } from 'react'
 import close from '../../../assets/images/close 1.png'
 
 import { ListGrid, Modal, DivLink, ModalContent } from './styles'
 
-type CardapioItem = {
+import { abrir, add } from '../../../store/reducers/cart'
+import { useDispatch } from 'react-redux'
+import { useGetItemQuery } from '../../../services'
+
+export type CardapioItem = {
   id: number
   foto: string
   preco: number
@@ -13,7 +18,7 @@ type CardapioItem = {
 }
 
 type Props = {
-  cardapio: CardapioItem[]
+  id: number
 }
 
 const formataPreco = (preco = 0) => {
@@ -23,12 +28,19 @@ const formataPreco = (preco = 0) => {
   }).format(preco)
 }
 
-const MenuCategorizado = ({ cardapio }: Props) => {
+const MenuCategorizado = ({ id }: Props) => {
+  const { data, error, isLoading } = useGetItemQuery(id)
+  const dispatch = useDispatch()
+
   const [modal, setModal] = useState(false)
   const [modalIndex, setModalIndex] = useState(0)
 
-  if (!cardapio || cardapio.length === 0) {
+  if (error) {
     return <p>Nenhum item encontrado.</p>
+  }
+
+  if (isLoading) {
+    return <p>Carregando...</p>
   }
 
   return (
@@ -36,46 +48,58 @@ const MenuCategorizado = ({ cardapio }: Props) => {
       <section>
         <div className="container">
           <ListGrid>
-            {cardapio.map((item, index) => (
-              <li key={item.id}>
-                <img src={item.foto} alt={item.nome} />
+            {data &&
+              data.cardapio.map((item, index) => (
+                <li key={item.id}>
+                  <img src={item.foto} alt={item.nome} />
 
-                <h4>{item.nome}</h4>
-                <p>{item.descricao.slice(0, 132) + '...'}</p>
-                <DivLink
-                  onClick={() => {
-                    setModal(true)
-                    setModalIndex(index)
-                  }}
-                >
-                  <span>Mais detalhes</span>
-                </DivLink>
-              </li>
-            ))}
+                  <h4>{item.nome}</h4>
+                  <p>{item.descricao.slice(0, 132) + '...'}</p>
+                  <DivLink
+                    onClick={() => {
+                      setModal(true)
+                      setModalIndex(index)
+                    }}
+                  >
+                    <span>Mais detalhes</span>
+                  </DivLink>
+                </li>
+              ))}
           </ListGrid>
         </div>
       </section>
       <Modal className={modal ? 'visivel' : ''}>
-        <ModalContent onClick={() => setModal(false)} className="container">
-          <img className="close" src={close} alt="" />
+        <ModalContent className="container">
+          <img
+            onClick={() => setModal(false)}
+            className="close"
+            src={close}
+            alt=""
+          />
           <div>
             <img
-              src={cardapio[modalIndex].foto}
-              alt={cardapio[modalIndex].nome}
+              src={data?.cardapio![modalIndex].foto}
+              alt={data?.cardapio![modalIndex].nome}
             />
           </div>
           <div>
-            <h3>{cardapio[modalIndex].nome}</h3>
+            <h3>{data?.cardapio![modalIndex].nome}</h3>
             <p>
-              {cardapio[modalIndex].descricao}
+              {data?.cardapio![modalIndex].descricao}
               <br />
               <br />
-              Serve: de {cardapio[modalIndex].porcao}
+              Serve: de {data?.cardapio![modalIndex].porcao}
             </p>
-            <DivLink>
+            <DivLink
+              onClick={() => {
+                dispatch(abrir())
+                dispatch(add(data!.cardapio[modalIndex]))
+                setModal(false)
+              }}
+            >
               <span>
                 Adicionar ao carrinho -{' '}
-                {formataPreco(cardapio[modalIndex].preco).toString()}
+                {formataPreco(data?.cardapio![modalIndex].preco).toString()}
               </span>
             </DivLink>
           </div>

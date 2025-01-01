@@ -69,7 +69,7 @@ const Menu = () => {
                 <Link
                   to={`/produtos/${category.id.toString()}`}
                   state={{
-                    cardapio: category.cardapio,
+                    id: category.id,
                     image: category.capa,
                     title: category.titulo,
                     culture: category.tipo
