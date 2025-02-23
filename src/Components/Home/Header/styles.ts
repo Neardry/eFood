@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Cores } from '../../../styles'
+import { breakPoints, Cores } from '../../../styles'
 
 import Hero from '../../../assets/images/Hero.png'
 
@@ -7,6 +7,10 @@ export const HeaderStyled = styled.header`
   color: ${Cores.vermelho};
   background-image: url(${Hero});
   height: 384px;
+
+  @media (max-width: ${breakPoints.tablet}) {
+    width: 100%;
+  }
 `
 
 export const Container = styled.div`

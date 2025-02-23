@@ -3,13 +3,7 @@ import { Link } from 'react-router-dom'
 
 import estrela from '../../../assets/images/estrela.png'
 
-import {
-  ListItems,
-  ListItem,
-  CategoriasBotao,
-  ContainerInfos,
-  ContainerCategoria
-} from './styles'
+import * as S from './styles'
 
 export type Categorys = {
   id: number
@@ -41,23 +35,23 @@ const Menu = () => {
   return (
     <div>
       <div className="container">
-        <ListItems>
+        <S.ListItems>
           {categorys.map((category) => (
-            <ListItem key={category.id}>
-              <ContainerCategoria>
+            <S.ListItem key={category.id}>
+              <S.ContainerCategoria>
                 {category.destacado && (
-                  <CategoriasBotao>
+                  <S.ButtonCategorys>
                     <h4>Destaque da semana</h4>
-                  </CategoriasBotao>
+                  </S.ButtonCategorys>
                 )}
-                <CategoriasBotao>
+                <S.ButtonCategorys>
                   <h4>{category.tipo}</h4>
-                </CategoriasBotao>
-              </ContainerCategoria>
+                </S.ButtonCategorys>
+              </S.ContainerCategoria>
               <div>
                 <img src={category.capa} alt={category.titulo} />
               </div>
-              <ContainerInfos>
+              <S.ContainerInfos>
                 <div>
                   <h4>{category.titulo}</h4>
                   <div>
@@ -75,12 +69,12 @@ const Menu = () => {
                     culture: category.tipo
                   }}
                 >
-                  <CategoriasBotao>Saiba mais</CategoriasBotao>
+                  <S.ButtonCategorys>Saiba mais</S.ButtonCategorys>
                 </Link>
-              </ContainerInfos>
-            </ListItem>
+              </S.ContainerInfos>
+            </S.ListItem>
           ))}
-        </ListItems>
+        </S.ListItems>
       </div>
     </div>
   )

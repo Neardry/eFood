@@ -6,6 +6,11 @@ export const Cores = {
   branco: '#FFEBD9'
 }
 
+export const breakPoints = {
+  desktop: '1024px',
+  tablet: '768px'
+}
+
 export const GlobalStyle = createGlobalStyle`
   * {
   margin: 0;
@@ -13,6 +18,7 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
   list-style: none;
+  }
 
   a {
     color: ${Cores.branco};
@@ -28,6 +34,15 @@ export const GlobalStyle = createGlobalStyle`
   max-width: 1024px;
   width: 100%;
   margin: 0 auto;
+
+      @media (max-width: ${breakPoints.tablet}) {
+    max-width: 80%;
+    }
   }
-}
+
+  html {
+    min-width: 500px;
+    width: 100%;
+    overflow-x: hidden;
+  }
 `

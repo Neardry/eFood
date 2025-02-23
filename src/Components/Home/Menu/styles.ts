@@ -1,12 +1,18 @@
 import styled from 'styled-components'
-import { Cores } from '../../../styles'
+import { breakPoints, Cores } from '../../../styles'
 
 export const ListItems = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(472px, 1fr));
   gap: 48px;
   margin-top: 40px;
   margin-bottom: 120px;
+
+  @media (max-width: ${breakPoints.tablet}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 export const ListItem = styled.li`
@@ -15,12 +21,18 @@ export const ListItem = styled.li`
   position: relative;
   max-height: 400px;
 
+  margin: 0 auto;
+
   img {
     width: 100%;
     height: 100%;
     max-width: 480px;
     max-height: 218px;
     object-fit: cover;
+  }
+
+  @media (max-width: ${breakPoints.tablet}) {
+    max-width: 80%;
   }
 `
 export const ContainerInfos = styled.div`
@@ -57,7 +69,7 @@ export const ContainerInfos = styled.div`
   }
 `
 
-export const CategoriasBotao = styled.div`
+export const ButtonCategorys = styled.div`
   background-color: ${Cores.vermelho};
   display: inline-block !important; /* caso seja necessário alteração, important foi usado para economizar linha */
   height: 30px;

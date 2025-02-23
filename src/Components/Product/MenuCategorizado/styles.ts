@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import { Cores } from '../../../styles'
+import { breakPoints, Cores } from '../../../styles'
 
 export const ListGrid = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 32px;
-  max-width: 320px;
 
   width: 100%;
   color: ${Cores.branco};
@@ -13,12 +12,19 @@ export const ListGrid = styled.ul`
   margin-bottom: 156px;
 
   li {
+    display: flex;
+    margin: 0 auto;
     padding: 8px;
     background-color: ${Cores.vermelho};
     max-height: 340px;
-    display: flex;
+    max-width: 320px;
     flex-direction: column;
     justify-content: space-between;
+
+    @media (max-width: ${breakPoints.tablet}) {
+      max-width: 100%;
+      align-items: center;
+    }
 
     p {
       font-size: 14px;
@@ -33,22 +39,11 @@ export const ListGrid = styled.ul`
     object-fit: cover;
     margin-bottom: 8px;
   }
-`
 
-export const DivLink = styled.div`
-  width: 100%;
-  max-width: 304px;
-  height: 24px;
-  background-color: ${Cores.branco};
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-  padding-top: 4px;
-  margin-top: 8px;
-  cursor: pointer;
-
-  span {
-    color: ${Cores.vermelho};
+  @media (max-width: ${breakPoints.tablet}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `
 
@@ -117,7 +112,7 @@ export const ModalContent = styled.div`
     margin: 32px;
   }
 
-  ${DivLink} {
+  button {
     margin-top: 16px;
   }
 `

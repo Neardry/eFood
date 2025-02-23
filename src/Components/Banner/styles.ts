@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { Props } from '.'
 
-import { Cores } from '../../../styles'
+import { Cores } from '../../styles'
 
 export const ContainerBanner = styled.div<Omit<Props, 'culture' | 'title'>>`
   height: 280px;

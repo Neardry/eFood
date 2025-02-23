@@ -1,29 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { CardapioItem } from '../../Components/Product/MenuCategorizado'
+import { ItemMenu } from '../../Components/Product/MenuCategorizado'
 
 type CartState = {
-  value: boolean
-  items: CardapioItem[]
+  isOpen: boolean
+  items: ItemMenu[]
   sum: number
 }
 
 const initialState: CartState = {
-  value: false,
+  isOpen: false,
   items: [],
   sum: 0
 }
 
-export const carrinhoSlice = createSlice({
+export const cartSlice = createSlice({
   name: 'carrinho',
   initialState,
   reducers: {
-    abrir: (state) => {
-      state.value = true
+    open: (state) => {
+      state.isOpen = true
     },
-    fechar: (state) => {
-      state.value = false
+    close: (state) => {
+      state.isOpen = false
     },
-    add: (state, action: PayloadAction<CardapioItem>) => {
+    add: (state, action: PayloadAction<ItemMenu>) => {
       const categoriaRepetida = state.items.find(
         (item) => item.id === action.payload.id
       )
@@ -38,9 +38,12 @@ export const carrinhoSlice = createSlice({
     },
     remove: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload)
+    },
+    clear: (state) => {
+      state.items = []
     }
   }
 })
 
-export const { abrir, fechar, add, remove } = carrinhoSlice.actions
-export default carrinhoSlice.reducer
+export const { open, close, add, remove, clear } = cartSlice.actions
+export default cartSlice.reducer

@@ -1,14 +1,16 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useState } from 'react'
-import close from '../../../assets/images/close 1.png'
-
-import { ListGrid, Modal, DivLink, ModalContent } from './styles'
-
-import { abrir, add } from '../../../store/reducers/cart'
+import { open, add } from '../../../store/reducers/cart'
 import { useDispatch } from 'react-redux'
 import { useGetItemQuery } from '../../../services'
 
-export type CardapioItem = {
+import { ListGrid, Modal, ModalContent } from './styles'
+
+import { Button } from '../../Button'
+import { priceFormat } from '../../../utils'
+
+import close from '../../../assets/images/close 1.png'
+
+export type ItemMenu = {
   id: number
   foto: string
   preco: number
@@ -19,13 +21,6 @@ export type CardapioItem = {
 
 type Props = {
   id: number
-}
-
-const formataPreco = (preco = 0) => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(preco)
 }
 
 const MenuCategorizado = ({ id }: Props) => {
@@ -55,57 +50,67 @@ const MenuCategorizado = ({ id }: Props) => {
 
                   <h4>{item.nome}</h4>
                   <p>{item.descricao.slice(0, 132) + '...'}</p>
-                  <DivLink
+                  <Button
+                    title="Mais detalhes"
+                    type="button"
                     onClick={() => {
                       setModal(true)
                       setModalIndex(index)
                     }}
                   >
-                    <span>Mais detalhes</span>
-                  </DivLink>
+                    <>Mais detalhes</>
+                  </Button>
                 </li>
               ))}
           </ListGrid>
         </div>
       </section>
-      <Modal className={modal ? 'visivel' : ''}>
-        <ModalContent className="container">
-          <img
-            onClick={() => setModal(false)}
-            className="close"
-            src={close}
-            alt=""
-          />
-          <div>
+      {data && (
+        <Modal className={modal ? 'visivel' : ''}>
+          <ModalContent className="container">
             <img
-              src={data?.cardapio![modalIndex].foto}
-              alt={data?.cardapio![modalIndex].nome}
+              onClick={() => setModal(false)}
+              className="close"
+              src={close}
+              alt=""
             />
-          </div>
-          <div>
-            <h3>{data?.cardapio![modalIndex].nome}</h3>
-            <p>
-              {data?.cardapio![modalIndex].descricao}
-              <br />
-              <br />
-              Serve: de {data?.cardapio![modalIndex].porcao}
-            </p>
-            <DivLink
-              onClick={() => {
-                dispatch(abrir())
-                dispatch(add(data!.cardapio[modalIndex]))
-                setModal(false)
-              }}
-            >
-              <span>
-                Adicionar ao carrinho -{' '}
-                {formataPreco(data?.cardapio![modalIndex].preco).toString()}
-              </span>
-            </DivLink>
-          </div>
-        </ModalContent>
-        <div onClick={() => setModal(false)} className="overlay"></div>
-      </Modal>
+            <div>
+              <img
+                src={data.cardapio[modalIndex].foto}
+                alt={data.cardapio[modalIndex].nome}
+              />
+            </div>
+            <div>
+              <h3>{data.cardapio[modalIndex].nome}</h3>
+              <p>
+                {data.cardapio[modalIndex].descricao}
+                <br />
+                <br />
+                Serve: de {data.cardapio[modalIndex].porcao}
+              </p>
+              <Button
+                maxWidthProps={true}
+                type="button"
+                title="Adicionar"
+                onClick={() => {
+                  dispatch(open())
+                  dispatch(add(data.cardapio[modalIndex]))
+                  setModal(false)
+                }}
+              >
+                <>
+                  Adicionar ao carrinho -{' '}
+                  <span>
+                    {' '}
+                    {priceFormat(data.cardapio[modalIndex].preco).toString()}
+                  </span>
+                </>
+              </Button>
+            </div>
+          </ModalContent>
+          <div onClick={() => setModal(false)} className="overlay"></div>
+        </Modal>
+      )}
     </>
   )
 }

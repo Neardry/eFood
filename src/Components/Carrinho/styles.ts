@@ -1,6 +1,10 @@
 import { styled } from 'styled-components'
-import { Cores } from '../../../styles'
-import { DivLink } from '../MenuCategorizado/styles'
+import { Cores } from '../../styles'
+
+type InputProps = {
+  maxWidth?: string
+  twoGrid?: string
+}
 
 export const Overlay = styled.div`
   position: fixed;
@@ -48,7 +52,7 @@ export const ContainerGrid = styled.div`
   display: grid;
   grid-template-column: 1fr;
   gap: 12px;
-  height: 100%;
+  height: auto;
 `
 
 export const CartItems = styled.ul`
@@ -93,8 +97,34 @@ export const CartItem = styled.li`
   }
 `
 
-export const KeepDelivery = styled(DivLink)`
-  color: ${Cores.vermelho};
-  max-width: 100%;
-  margin: 0px 0px 30px 0px;
+export const FormItems = styled(CartItems)<InputProps>`
+  display: grid;
+  flex: auto;
+  width: auto;
+  grid-template-columns: ${(props) => props.twoGrid || '1fr'};
+  color: ${Cores.branco};
+`
+
+export const FormItem = styled.div<InputProps>`
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 18px;
+  max-width: ${(props) => props.maxWidth || 'auto'};
+  justify-self: end;
+
+  width: 100%;
+
+  label {
+    margin-bottom: 8px;
+  }
+
+  input {
+    background-color: ${Cores.fundoBody};
+    border: 1px solid ${Cores.fundoBody};
+    height: 32px;
+    width: 100%;
+    padding: 8px;
+  }
 `

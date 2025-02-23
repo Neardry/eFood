@@ -18,4 +18,8 @@ export const HeaderProduct = styled.div`
   img {
     width: 124px;
   }
+
+  p {
+    cursor: pointer;
+  }
 `
